@@ -1,2 +1,2 @@
-# JavaScript Bank Project
- 
+# bank app
+ JavaScript bank project
