@@ -74,7 +74,7 @@ const displayMovements = function (movements, sort = false) {
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-        <div class="movements__value">${mov}€</div>
+        <div class="movements__value">${mov}$</div>
       </div>
     `;
 
@@ -85,18 +85,19 @@ const displayMovements = function (movements, sort = false) {
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${acc.balance}€`;
+  labelBalance.textContent = `${acc.balance}$`;
 };
 
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes}€`;
+  labelSumIn.textContent = `${incomes}$`;
 
   const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(out)}€`;
+  labelSumOut.textContent = `${Math.abs(out)}$`;
 
   const interest = acc.movements
     .filter(mov => mov > 0)
@@ -106,7 +107,7 @@ const calcDisplaySummary = function (acc) {
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interest}€`;
+  labelSumInterest.textContent = `${interest}$`;
 };
 
 const createUsernames = function (accs) {
@@ -154,7 +155,7 @@ btnLogin.addEventListener('click', function (e) {
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
-
+    sorted = false;
     // Update UI
     updateUI(currentAccount);
   }
@@ -359,4 +360,44 @@ const movementUsdStg = movements.map(
   (mov, i) => `Movement ${i + 1}: You deposited ${mov}`
 );
 console.log(movementUsdStg);
+
+
+const arr = [1, 2, 3, 4, 5, 6, 7];
+console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+
+// 7 empty arrays
+const x = new Array(7);
+console.log(x);
+
+x.fill(1, 3, 5);
+console.log(x);
+x.fill(1);
+console.log(x);
+
+arr.fill(23, 2, 6);
+console.log(arr);
+
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y);
+
+const z = Array.from({ length: 7 }, (cur, i) => i + 1);
+console.log(z);
+
+const diceRolls = Array.from({ length: 100 }, () =>
+  Math.floor(Math.random() * 6 + 1)
+);
+console.log(diceRolls);
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    // callbakc function can be called here instead of the console.log()
+    el => Number(el.textContent.replace('$', ''))
+  );
+
+  console.log(movementsUI);
+});
+
+// this also can create arrays from arraylike elemnts
+const movementsUI2 = [...document.querySelectorAll('.movements__value')];
 */
