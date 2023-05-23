@@ -208,6 +208,19 @@ btnClose.addEventListener('click', function (e) {
     const index = accounts.findIndex(
       acc => acc.username === currentAccount.username
     );
+
+    if (
+      confirm(
+        `${currentAccount.owner}, Are you sure you want to delete your account?`
+      ) === true
+    ) {
+      if (prompt('Type "CONFIRM" to delete your account') !== 'CONFIRM') {
+        return false;
+      }
+    } else {
+      return false;
+    }
+
     console.log(index);
     // .indexOf(23)
 
@@ -399,4 +412,103 @@ labelBalance.addEventListener('click', function () {
 
 // this also can create arrays from arraylike elemnts
 const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+
+
+//1.
+const bankDepostiSum = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov > 0)
+  .reduce((sum, mov) => sum + mov);
+console.log(bankDepostiSum);
+
+//2.
+const numdeposits1000 = accounts
+  .flatMap(acc => acc.movements)
+  // both work
+  // .filter(mov => mov >= 1000).length
+  .reduce((acc, cur) => (cur >= 1000 ? ++acc : acc), 0);
+console.log(numdeposits1000);
+
+//3.
+const { deposits, withdrawals } = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      // same but second one its cleaner
+      // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+      sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+      return sums;
+    },
+    { deposits: 0, withdrawals: 0 }
+  );
+console.log(deposits, withdrawals);
+
+//4.
+// this is a nice title => This Is a Nice Title
+
+const convertTitleCase = function (title) {
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+  const exceptions = ['a', 'an', 'the', 'but', 'or', 'on', 'in', 'with', 'and'];
+
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(word =>
+      exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1)
+    )
+    .join(' ');
+
+  return titleCase[0].toUpperCase() + titleCase.slice(1);
+};
+console.log(convertTitleCase('this is a nice title'));
+console.log(convertTitleCase('this is a LONG title but not too long'));
+console.log(convertTitleCase('and here is another title with an EXAMPLE'));
+
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+dogs.forEach(dog => (dog.recFood = Math.trunc(dog.weight * 0.75 * 28)));
+
+const sarahsDog = dogs.find(dog => dog.owners.includes('Sarah'));
+console.log(
+  `Sarah's dog is eating ${
+    sarahsDog.curFood > sarahsDog.recFood ? `too much` : `too little`
+  }`
+);
+
+let ownersEatTooMuch = [];
+let ownersEeatTooLittle = [];
+
+dogs
+  .map(dog => dog)
+  .reduce(
+    (acc, dog) =>
+      dog.curFood > dog.recFood && dog.curFood !== dog.recFood
+        ? ownersEatTooMuch.push(dog.owners)
+        : ownersEeatTooLittle.push(dog.owners),
+    0
+  );
+
+console.log(ownersEatTooMuch.flat().join(' and ') + ' is eating too Much!');
+console.log(
+  ownersEeatTooLittle.flat().join(' and ') + ' is eating too Little!'
+);
+
+console.log(dogs.some(dog => dog.recFood === dog.curFood));
+
+const DogsEatingOkay = dog =>
+  dog.curFood > dog.recFood * 0.9 && dog.curFood < dog.recFood * 1.1;
+
+console.log(dogs.some(DogsEatingOkay));
+
+console.log(dogs.filter(DogsEatingOkay));
+
+const dogPortions = dogs.slice().sort((a, b) => a.recFood - b.recFood);
+console.log(dogPortions);
+console.log(dogs);
 */
