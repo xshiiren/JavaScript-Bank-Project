@@ -60,8 +60,12 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+let currentDate = new Date();
 
 const displayMovements = function (movements, sort = false) {
+  labelDate.innerHTML = `${
+    currentDate.getMonth() + 1
+  }/${currentDate.getDate()}/${currentDate.getFullYear()}`;
   containerMovements.innerHTML = '';
 
   const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
