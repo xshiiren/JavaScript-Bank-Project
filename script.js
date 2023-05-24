@@ -175,7 +175,7 @@ btnLogin.addEventListener('click', function (e) {
   );
   console.log(currentAccount);
 
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+  if (currentAccount?.pin === +inputLoginPin.value) {
     // Display UI and message
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(' ')[0]
@@ -193,7 +193,7 @@ btnLogin.addEventListener('click', function (e) {
 
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
-  const amount = Number(inputTransferAmount.value);
+  const amount = +inputTransferAmount.value;
   const receiverAcc = accounts.find(
     acc => acc.username === inputTransferTo.value
   );
@@ -217,7 +217,7 @@ btnTransfer.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
@@ -234,7 +234,7 @@ btnClose.addEventListener('click', function (e) {
 
   if (
     inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
+    +inputClosePin.value === currentAccount.pin
   ) {
     const index = accounts.findIndex(
       acc => acc.username === currentAccount.username
@@ -542,4 +542,79 @@ console.log(dogs.filter(DogsEatingOkay));
 const dogPortions = dogs.slice().sort((a, b) => a.recFood - b.recFood);
 console.log(dogPortions);
 console.log(dogs);
+
+
+console.log(23 === 23.0);
+console.log(0.1 + 0.2);
+console.log(Number((0.1 + 0.2).toFixed(2)) === 0.3);
+
+//conversion
+console.log(Number('23'));
+console.log(+'23');
+
+//parsing
+console.log(Number.parseInt('30px')); // needs to start with a number
+console.log(Number.parseInt('e30px'));
+
+console.log(Number.parseFloat('2.5rem'));
+console.log(Number.parseInt('2.5rem'));
+console.log(parseFloat('2.5rem'));
+
+// check if value is not a NaN
+console.log(Number.isNaN(20));
+console.log(Number.isNaN('20'));
+console.log(Number.isNaN(+'20x'));
+console.log(Number.isNaN(23 / 0));
+
+// cheking if value is number
+console.log(Number.isFinite(20));
+console.log(Number.isFinite('20'));
+console.log(Number.isFinite(+'20x'));
+console.log(Number.isFinite(23 / 0));
+
+console.log(Number.isInteger(23));
+console.log(Number.isInteger(23.0));
+console.log(Number.isInteger(23 / 0));
+
+
+console.log(Math.sqrt(25));
+console.log(25 ** 0.5);
+console.log(25 ** (1 / 2));
+
+console.log(Math.max(5, 3, 7, 1, 5));
+console.log(Math.max(5, 3, '23', 1, 5));
+console.log(Math.max(5, 3, '23px', 1, 5));
+
+console.log(Math.min(5, 3, 7, 1, 5));
+
+console.log(Math.PI * Number.parseFloat('10') ** 2);
+
+console.log(Math.trunc(Math.random() * 6) + 1);
+
+// plus 1 needs to be inside parenthesis so you can get the min as an answer
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+console.log(randomInt(1, 6));
+
+// rounding integers
+console.log(Math.trunc(23.3));
+
+console.log(Math.round(23.7));
+console.log(Math.round(23.2));
+
+console.log(Math.ceil(23.7));
+console.log(Math.ceil(23.2));
+
+console.log(Math.floor(23.7));
+console.log(Math.floor(23.2));
+
+console.log(Math.trunc(-23.3));
+console.log(Math.floor(-23.3));
+
+// Rounding decimals
+// to fixed changes input to a string
+console.log((2.7).toFixed(0));
+console.log((2.763).toFixed(3));
+console.log((2.76).toFixed(2));
+console.log(+(2.76).toFixed(2));
 */
