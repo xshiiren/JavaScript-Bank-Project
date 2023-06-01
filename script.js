@@ -281,12 +281,14 @@ btnLoan.addEventListener('click', function (e) {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    // Add movement
-    currentAccount.movements.push(amount);
-    currentAccount.movementsDates.push(new Date().toISOString());
+    setTimeout(() => {
+      // Add movement
+      currentAccount.movements.push(amount);
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    // Update UI
-    updateUI(currentAccount);
+      // Update UI
+      updateUI(currentAccount);
+    }, 2500);
   }
   inputLoanAmount.value = '';
 });
@@ -823,4 +825,29 @@ console.log(
   'MEXICO:     ',
   new Intl.NumberFormat('es-MX', options2).format(num)
 );
+
+
+const ingredients = ['olives', 'spinach', 'extra cheese'];
+
+const pizzaTimer = setTimeout(
+  function (ing1, ing2) {
+    console.log(`here is your pizza with ${ing1}, ${ing2}`);
+  },
+  1500,
+  ...ingredients
+);
+console.log('Waiting...');
+
+if (ingredients.includes('spinach')) {
+  clearTimeout(pizzaTimer);
+  console.log('no pizza for you');
+}
+
+setInterval(function () {
+  const now = new Date();
+  const hour = `${now.getHours()}`.padStart(2, '0');
+  const minute = `${now.getMinutes()}`.padStart(2, '0');
+  const second = `${now.getSeconds()}`.padStart(2, '0');
+  console.log(`${hour}:${minute}:${second}`);
+}, 1000);
 */
