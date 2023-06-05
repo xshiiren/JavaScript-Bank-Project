@@ -189,9 +189,31 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+const startLogOutTimer = function () {
+  let time = 300;
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, '0');
+    const seconds = String(time % 60).padStart(2, '0');
+    // in each call, print the reamainnig to UI
+    labelTimer.textContent = `${min}:${seconds}`;
+
+    // when timer reaches 0, log out user
+    if (time == 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+    time--;
+  };
+
+  // set time to 5 minutes
+  // cakk the timer every second
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
+let currentAccount, timer;
 
 // EXPERIMENTING WITH PAI
 const now = new Date();
@@ -205,12 +227,6 @@ const options = {
 };
 
 // labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(now);
-
-// FAKE ALWAYS LOGGED IN
-
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 1;
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
@@ -246,6 +262,8 @@ btnLogin.addEventListener('click', function (e) {
     inputLoginPin.blur();
     sorted = false;
     // Update UI
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
     updateUI(currentAccount);
   }
 });
@@ -272,6 +290,10 @@ btnTransfer.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+
+    // reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 });
 
@@ -288,6 +310,10 @@ btnLoan.addEventListener('click', function (e) {
 
       // Update UI
       updateUI(currentAccount);
+
+      // reset timer
+      clearInterval(timer);
+      timer = startLogOutTimer();
     }, 2500);
   }
   inputLoanAmount.value = '';
@@ -335,7 +361,6 @@ btnSort.addEventListener('click', function (e) {
   displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
-
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
